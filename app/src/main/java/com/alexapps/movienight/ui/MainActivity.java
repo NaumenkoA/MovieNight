@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.alexapps.movienight.R;
-import com.alexapps.movienight.fragments.AlertDialogFragment;
-import com.alexapps.movienight.fragments.AlertNoInternetFragment;
 
 import java.io.IOException;
 

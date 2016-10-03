@@ -9,13 +9,335 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.alexapps.movienight.ui.MainActivity">
+    tools:context="com.alexapps.movienight.ui.MainActivity"
+    android:background="#01d277">
+
+    <Button
+        android:text="SUBMIT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:text="@string/movie_night"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:id="@+id/titleTextView"
+        android:textColor="@color/colorPrimary"
+        android:textSize="34sp"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:layout_marginTop="14dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTextView"
+        android:layout_above="@id/submitButton"
+        android:weightSum="100"
+        android:layout_marginTop="40dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="Search for:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/typeInfoTextView"
+                android:textSize="23sp"
+                android:textColor="#ffffff"
+                android:textStyle="normal|bold"
+                android:layout_weight="37"
+                />
+
+            <CheckBox
+                android:text="Movies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/moviesCheckBox"
+                android:checked="true"
+                android:textSize="16sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="30"
+                android:elevation="1dp"/>
+
+            <CheckBox
+                android:text="TV shows"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/showsCheckBox"
+                android:checked="false"
+                android:textSize="16sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="33"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="Movie genres:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/genres1InfoTextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="45"/>
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/moviesGenresSpinner"
+                android:layout_weight="55"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="TV show genres:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/genres2InfoTextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="45"/>
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/showsGenresSpinner"
+                android:layout_weight="55"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="Rating\&Release dates"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingHeaderTextView"
+                android:textSize="23sp"
+                android:textColor="#ffffff"
+                android:textStyle="normal|bold"
+                android:layout_weight="100"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="Movie rating:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingInfoTextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="45"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/ratingEditText"
+                android:layout_weight="15"
+                android:hint="9.0"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:textColor="#01d277"
+                android:textColorHint="@android:color/darker_gray"
+                android:textAlignment="center"
+                android:maxLength="4"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="Minimum votes:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/votesInfotextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="45"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/votesEditText"
+                android:layout_weight="35"
+                android:hint="1000"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:textColor="#01d277"
+                android:textColorHint="@android:color/darker_gray"
+                android:textAlignment="center"
+                android:maxLength="8"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:weightSum="100"
+            android:layout_weight="10">
+
+            <TextView
+                android:text="Release dates:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/releaseDatesInfoTextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="45"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/year1EditText"
+                android:layout_weight="20"
+                android:hint="1000"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:textColor="#01d277"
+                android:textColorHint="@android:color/darker_gray"
+                android:textAlignment="center"
+                android:maxLength="4"/>
+
+            <TextView
+                android:text="-"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/dashTextView"
+                android:layout_weight="10"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/year2EditText"
+                android:layout_weight="20"
+                android:hint="1000"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:textColor="#01d277"
+                android:textColorHint="@android:color/darker_gray"
+                android:textAlignment="center"
+                android:maxLength="4"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="Sort"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sortHeaderTextView"
+                android:textSize="23sp"
+                android:textColor="#ffffff"
+                android:textStyle="normal|bold"
+                android:layout_weight="100"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="Sort by:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sortByInfoTextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_marginTop="5dp"
+                android:layout_weight="45"/>
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sortTypeSpinner"
+                android:layout_weight="55"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100">
+
+            <TextView
+                android:text="View results:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/viewSortInfoTextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_marginTop="5dp"
+                android:layout_weight="45"/>
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/SortAscDescSpinner"
+                android:layout_weight="55"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>

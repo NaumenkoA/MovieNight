@@ -7,4 +7,6 @@
     <string name="network_error">Network error!</string>
     <string name="network_error_message">No network is available. Please check your internet connection</string>
     <string name="no_internet_tag">no internet error</string>
+    <string name="find_your_movie">Find YOUR movie</string>
+    <string name="movie_night">MOVIE NIGHT</string>
 </resources>
