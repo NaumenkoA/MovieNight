@@ -1,4 +1,24 @@
 <resources>
+    <string-array
+        name="array_sort_by">
+        <item
+            >popularity</item>
+        <item
+            >release date</item>
+        <item
+            >revenue (movies only)</item>
+        <item
+            >average vote</item>
+        <item
+            >number of votes (movies only)</item>
+    </string-array>
+    <string-array
+        name="array_view_results">
+        <item
+            >top to bottom</item>
+        <item
+            >bottom to top</item>
+    </string-array>
     <string name="app_name">Movie Night</string>
     <string name="error_title">Error!</string>
     <string name="error_message">Some error has occured! Please try again!</string>
@@ -9,4 +29,26 @@
     <string name="no_internet_tag">no internet error</string>
     <string name="find_your_movie">Find YOUR movie</string>
     <string name="movie_night">MOVIE NIGHT</string>
+    <string name="submit_button">SUBMIT</string>
+    <string name="search_for">Search for:</string>
+    <string name="movies_checkbox">Movies</string>
+    <string name="tv_shows_checkbox">TV shows</string>
+    <string name="movie_genres">Movie genres:</string>
+    <string name="tv_show_genres">Shows genres:</string>
+    <string name="rating_and_release_dates">Rating and Release dates</string>
+    <string name="movie_rating">Minimum rating:</string>
+    <string name="number_of_votes">Number of votes:</string>
+    <string name="release_dates">Release dates:</string>
+    <string name="dash">-</string>
+    <string name="sort">Sort</string>
+    <string name="sort_by">Sort by:</string>
+    <string name="view_results">View results:</string>
+    <string name="all_genres">All genres</string>
+    <string name="dots">...</string>
+    <string name="ok">OK</string>
+    <string name="action">Action</string>
+    <string name="empty_genres_list">Some error has occured. Please check internet connection and try again.</string>
+    <string name="select_all">SELECT ALL</string>
+    <string name="select_movie_genres">Select movie genres:</string>
+    <string name="select_show_genres">Select TV Shows genres:</string>
 </resources>

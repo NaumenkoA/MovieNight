@@ -12,18 +12,6 @@
     tools:context="com.alexapps.movienight.ui.MainActivity"
     android:background="#01d277">
 
-    <Button
-        android:text="SUBMIT"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/submitButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"/>
-
     <TextView
         android:text="@string/movie_night"
         android:layout_width="match_parent"
@@ -42,10 +30,11 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titleTextView"
-        android:layout_above="@id/submitButton"
         android:weightSum="100"
-        android:layout_marginTop="40dp">
+        android:layout_above="@+id/submitButton"
+        android:layout_below="@+id/typeInfoTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -54,37 +43,26 @@
             android:layout_weight="10"
             android:weightSum="100">
 
-            <TextView
-                android:text="Search for:"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/typeInfoTextView"
-                android:textSize="23sp"
-                android:textColor="#ffffff"
-                android:textStyle="normal|bold"
-                android:layout_weight="37"
-                />
-
             <CheckBox
-                android:text="Movies"
+                android:text="@string/movies_checkbox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/moviesCheckBox"
                 android:checked="true"
                 android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="30"
-                android:elevation="1dp"/>
+                android:layout_weight="50"
+                />
 
             <CheckBox
-                android:text="TV shows"
+                android:text="@string/tv_shows_checkbox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/showsCheckBox"
-                android:checked="false"
                 android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="33"/>
+                android:layout_weight="50"
+                android:checked="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -95,7 +73,7 @@
             android:weightSum="100">
 
             <TextView
-                android:text="Movie genres:"
+                android:text="@string/movie_genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/genres1InfoTextView"
@@ -103,11 +81,27 @@
                 android:textColor="#ccffffff"
                 android:layout_weight="45"/>
 
-            <Spinner
+            <TextView
+                tools:text="@string/all_genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/moviesGenresSpinner"
-                android:layout_weight="55"/>
+                android:id="@+id/selectedMovieGenresTextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="45"/>
+
+            <Button
+                android:text="@string/dots"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/selectMovieGenresButton"
+                android:layout_weight="10"
+                android:textSize="10sp"
+                android:textColor="#ffffffff"
+                android:background="@color/colorPrimary"
+                android:elevation="1dp"/>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -118,7 +112,7 @@
             android:weightSum="100">
 
             <TextView
-                android:text="TV show genres:"
+                android:text="@string/tv_show_genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/genres2InfoTextView"
@@ -126,11 +120,27 @@
                 android:textColor="#ccffffff"
                 android:layout_weight="45"/>
 
-            <Spinner
+            <TextView
+                tools:text="@string/all_genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/showsGenresSpinner"
-                android:layout_weight="55"/>
+                android:id="@+id/selectedTVGenresTextView"
+                android:textSize="18sp"
+                android:textColor="#ccffffff"
+                android:layout_weight="45"/>
+
+            <Button
+                android:text="@string/dots"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/selectShowsGenreButton"
+                android:layout_weight="10"
+                android:textSize="10sp"
+                android:textColor="#ffffffff"
+                android:background="@color/colorPrimary"
+                android:elevation="1dp"/>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -141,7 +151,7 @@
             android:weightSum="100">
 
             <TextView
-                android:text="Rating\&Release dates"
+                android:text="@string/rating_and_release_dates"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/ratingHeaderTextView"
@@ -159,7 +169,7 @@
             android:weightSum="100">
 
             <TextView
-                android:text="Movie rating:"
+                android:text="@string/movie_rating"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/ratingInfoTextView"
@@ -174,7 +184,7 @@
                 android:ems="10"
                 android:id="@+id/ratingEditText"
                 android:layout_weight="15"
-                android:hint="9.0"
+                android:hint="7.0"
                 android:textSize="16sp"
                 android:background="@android:color/white"
                 android:textColor="#01d277"
@@ -191,7 +201,7 @@
             android:weightSum="100">
 
             <TextView
-                android:text="Minimum votes:"
+                android:text="@string/number_of_votes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/votesInfotextView"
@@ -206,7 +216,7 @@
                 android:ems="10"
                 android:id="@+id/votesEditText"
                 android:layout_weight="35"
-                android:hint="1000"
+                android:hint="100"
                 android:textSize="16sp"
                 android:background="@android:color/white"
                 android:textColor="#01d277"
@@ -223,53 +233,36 @@
             android:layout_weight="10">
 
             <TextView
-                android:text="Release dates:"
+                android:text="@string/release_dates"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/releaseDatesInfoTextView"
                 android:textSize="18sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="45"/>
+                android:layout_weight="39"/>
 
-            <EditText
+            <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/year1EditText"
-                android:layout_weight="20"
-                android:hint="1000"
-                android:textSize="16sp"
-                android:background="@android:color/white"
-                android:textColor="#01d277"
-                android:textColorHint="@android:color/darker_gray"
-                android:textAlignment="center"
-                android:maxLength="4"/>
+                android:id="@+id/yearFromSpinner"
+                android:layout_weight="28"/>
 
             <TextView
-                android:text="-"
+                android:text="@string/dash"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/dashTextView"
-                android:layout_weight="10"
+                android:layout_weight="5"
                 android:textSize="25sp"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"/>
 
-            <EditText
+            <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/year2EditText"
-                android:layout_weight="20"
-                android:hint="1000"
-                android:textSize="16sp"
-                android:background="@android:color/white"
-                android:textColor="#01d277"
-                android:textColorHint="@android:color/darker_gray"
-                android:textAlignment="center"
-                android:maxLength="4"/>
+                android:id="@+id/yearToSpinner"
+                android:layout_weight="28"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -280,25 +273,7 @@
             android:weightSum="100">
 
             <TextView
-                android:text="Sort"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/sortHeaderTextView"
-                android:textSize="23sp"
-                android:textColor="#ffffff"
-                android:textStyle="normal|bold"
-                android:layout_weight="100"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:weightSum="100">
-
-            <TextView
-                android:text="Sort by:"
+                android:text="@string/sort_by"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/sortByInfoTextView"
@@ -322,7 +297,7 @@
             android:weightSum="100">
 
             <TextView
-                android:text="View results:"
+                android:text="@string/view_results"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/viewSortInfoTextView"
@@ -339,5 +314,30 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:text="@string/search_for"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/typeInfoTextView"
+        android:textSize="23sp"
+        android:textColor="#ffffff"
+        android:textStyle="normal|bold"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/titleTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        android:text="@string/submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitButton"
+        android:textSize="20sp"
+        android:background="#40ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
