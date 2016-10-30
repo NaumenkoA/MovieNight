@@ -2,6 +2,7 @@ package com.alexapps.movienight.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String TAG = MainActivity.class.getSimpleName();
     public final static String GENRE_ARRAY = "GENRE_ARRAY";
     public final static String IS_MOVIE = "IS_MOVIE";
+    @BindView(R.id.genres1InfoTextView) TextView mMovieGenresInfoTextView;
+    @BindView(R.id.genres2InfoTextView) TextView mTVGenresInfoTextView;
     @BindView(R.id.sortTypeSpinner) Spinner mSortTypeSpinner;
     @BindView(R.id.moviesCheckBox) CheckBox mMoviesCheckBox;
     @BindView(R.id.SortAscDescSpinner) Spinner mAscDescSpinner;
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     Genre [] mMovieGenres;
     Genre [] mTVShowGenres;
     Years years = new Years();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +115,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mMoviesCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            changeGenreSelection (true);
+            }
+        });
+        mTVCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeGenreSelection(false);
+            }
+        });
         }
+
+    private void changeGenreSelection(boolean isMovie) {
+        if (isMovie) {
+            revertStates(mMoviesCheckBox, mMovieGenresInfoTextView, mSelectedMovieGenres, mSelectMovieGenresButton);
+        } else {
+            revertStates(mTVCheckBox, mTVGenresInfoTextView, mSelectedTVGenres, mSelectShowsGenresButton);
+        }
+    }
+
+    private void revertStates (CheckBox checkbox, TextView textView1, TextView textView2, Button button) {
+        button.setEnabled(checkbox.isChecked());
+        if (checkbox.isChecked()) {
+            setGenreTextColor(textView1, textView2, "#ccffffff");
+        } else
+        {
+            setGenreTextColor(textView1, textView2, "#848587");
+        }
+        }
+
+    private void setGenreTextColor(TextView textView1, TextView textView2, String color) {
+        textView1.setTextColor(Color.parseColor(color));
+        textView2.setTextColor(Color.parseColor(color));
+    }
 
     public void startGenreActivity (boolean isMovie) {
     Intent intent = new Intent(this, GenreActivity.class);
