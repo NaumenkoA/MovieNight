@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public final static String TAG = MainActivity.class.getSimpleName();
     public final static String GENRE_ARRAY = "GENRE_ARRAY";
     public final static String IS_MOVIE = "IS_MOVIE";
+    static final int PICK_CONTACT_REQUEST = 1;
     @BindView(R.id.genres1InfoTextView) TextView mMovieGenresInfoTextView;
     @BindView(R.id.genres2InfoTextView) TextView mTVGenresInfoTextView;
     @BindView(R.id.sortTypeSpinner) Spinner mSortTypeSpinner;
@@ -51,11 +54,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.showsCheckBox) CheckBox mTVCheckBox;
     @BindView(R.id.ratingEditText) EditText mRatingEditText;
     @BindView(R.id.votesEditText) EditText mVotesEditText;
-    @BindView(R.id.selectedMovieGenresTextView)
-    TextView mSelectedMovieGenres;
+    @BindView(R.id.selectedMovieGenresTextView) TextView mSelectedMovieGenres;
     @BindView(R.id.selectedTVGenresTextView) TextView mSelectedTVGenres;
-    @BindView(R.id.submitButton)
-    Button mSubmitButton;
+    @BindView(R.id.submitButton) Button mSubmitButton;
     @BindView(R.id.selectMovieGenresButton)  Button mSelectMovieGenresButton;
     @BindView(R.id.selectShowsGenreButton) Button mSelectShowsGenresButton;
     Genre [] mMovieGenres;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         mYearFromSpinner.setAdapter(adapter3);
         mYearToSpinner.setAdapter(adapter3);
 
-       String urlMovieGenresList = "https://api.themoviedb.org/3/genre/movie/list?api_key=529915439cfafbc35e2bed2706c2eebd";
+        String urlMovieGenresList = "https://api.themoviedb.org/3/genre/movie/list?api_key=529915439cfafbc35e2bed2706c2eebd";
         String urlTVGenresList = "https://api.themoviedb.org/3/genre/tv/list?api_key=529915439cfafbc35e2bed2706c2eebd";
 
         webRequest(urlMovieGenresList, "GET_MOVIE_GENRES");
@@ -127,7 +128,55 @@ public class MainActivity extends AppCompatActivity {
                 changeGenreSelection(false);
             }
         });
+
         }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_CONTACT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Parcelable[] parcelables = data.getParcelableArrayExtra(GENRE_ARRAY);
+                Genre [] genres = Arrays.copyOf (parcelables, parcelables.length, Genre[].class);
+                boolean isMovie = data.getBooleanExtra(IS_MOVIE, true);
+                if (isMovie){
+                    mMovieGenres = genres;
+                } else {
+                    mTVShowGenres = genres;
+                }
+                refreshGenreTextView (isMovie);
+            }
+        }
+    }
+
+    private void refreshGenreTextView(boolean isMovie) {
+        if (isMovie) {
+            showSelectedGenres(mMovieGenres, true);
+        } else {
+            showSelectedGenres(mTVShowGenres, false);
+        }
+    }
+
+    private void showSelectedGenres (Genre[] genres, boolean isMovie) {
+        String selectedGenres = "";
+        boolean allGenres = true;
+        for (Genre genre : genres) {
+            if (genre.isSelected()) {
+                if (selectedGenres.equals("")) {
+                    selectedGenres = genre.getName();
+                } else {
+                    selectedGenres = selectedGenres +
+                            ", " + genre.getName();
+                }
+            } else {
+                allGenres = false;
+            }
+        }
+        if (allGenres) selectedGenres = getResources().getString(R.string.all_genres);
+        if (isMovie)  mSelectedMovieGenres.setText(selectedGenres);
+        else mSelectedTVGenres.setText(selectedGenres);
+            }
+
 
     private void changeGenreSelection(boolean isMovie) {
         if (isMovie) {
@@ -161,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         {
             intent.putExtra (GENRE_ARRAY, mTVShowGenres);
         }
-    startActivity(intent);
+    startActivityForResult(intent, PICK_CONTACT_REQUEST);
     }
 
 

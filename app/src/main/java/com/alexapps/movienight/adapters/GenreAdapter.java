@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
@@ -14,7 +15,8 @@ public class GenreAdapter extends BaseAdapter {
     private Context mContext;
     private Genre[] mGenre;
 
-    public GenreAdapter (Context context, Genre [] genre) {
+
+    public GenreAdapter(Context context, Genre[] genre) {
         mContext = context;
         mGenre = genre;
     }
@@ -26,7 +28,7 @@ public class GenreAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return mGenre [position];
+        return mGenre[position];
     }
 
     @Override
@@ -41,14 +43,17 @@ public class GenreAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.genre_list_item, null);
             holder.genreCheckbox = (CheckBox) convertView.findViewById(R.id.genreItemCheckBox);
-            convertView.setTag (holder);
+            convertView.setTag(holder);
         } else {
-        holder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
-        holder.genreCheckbox.setText (mGenre[position].getName());
-        return  convertView;
-}
+        holder.genreCheckbox.setText(mGenre[position].getName());
+        holder.genreCheckbox.setChecked(mGenre[position].isSelected());
+        return convertView;
+    }
+
     public static class ViewHolder {
         CheckBox genreCheckbox;
     }
+
 }

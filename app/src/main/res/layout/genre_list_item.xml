@@ -12,6 +12,7 @@
         android:checked="false"
         android:textSize="18sp"
         android:textColor="#ccffffff"
-        />
+        android:clickable="false"
+        android:focusable="false" />
 
 </RelativeLayout>

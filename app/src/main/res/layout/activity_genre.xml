@@ -49,7 +49,7 @@
         android:layout_alignParentStart="true"/>
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/genreList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/selectAllCheckBox"
@@ -63,7 +63,7 @@
         android:text="@string/empty_genres_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@android:id/empty"
+        android:id="@+id/emptyListTextView"
         android:textSize="18sp"
         android:textColor="#ffffff"
         android:layout_alignParentLeft="true"
