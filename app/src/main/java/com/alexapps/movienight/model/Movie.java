@@ -5,14 +5,22 @@ public class Movie {
     private String mTitle;
     private String mOverview;
     private int [] mGenreId;
-    private int mAverageVote;
-    private String mReleaseDate;
+    private double mAverageVote;
+    private int mReleaseDate;
 
-    public String getReleaseDate() {
+    public Movie (String title, String overview, int [] genreId, double averageVote, int releaseDate) {
+        mTitle = title;
+        mOverview = overview;
+        mGenreId = genreId;
+        mAverageVote = averageVote;
+        mReleaseDate = releaseDate;
+    }
+
+    public int getReleaseDate() {
         return mReleaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(int releaseDate) {
         mReleaseDate = releaseDate;
     }
 
@@ -40,11 +48,11 @@ public class Movie {
         mGenreId = genreId;
     }
 
-    public int getAverageVote() {
+    public double getAverageVote() {
         return mAverageVote;
     }
 
-    public void setAverageVote(int averageVote) {
+    public void setAverageVote(double averageVote) {
         mAverageVote = averageVote;
     }
 }

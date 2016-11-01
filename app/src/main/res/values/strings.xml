@@ -1,23 +1,14 @@
 <resources>
-    <string-array
-        name="array_sort_by">
-        <item
-            >popularity</item>
-        <item
-            >release date</item>
-        <item
-            >revenue (movies only)</item>
-        <item
-            >average vote</item>
-        <item
-            >number of votes (movies only)</item>
+    <string-array name="array_sort_by">
+        <item>popularity</item>
+        <item>release date</item>
+        <item>revenue (movies only)</item>
+        <item>average vote</item>
+        <item>number of votes (movies only)</item>
     </string-array>
-    <string-array
-        name="array_view_results">
-        <item
-            >top to bottom</item>
-        <item
-            >bottom to top</item>
+    <string-array name="array_view_results">
+        <item>top to bottom</item>
+        <item>bottom to top</item>
     </string-array>
     <string name="app_name">Movie Night</string>
     <string name="error_title">Error!</string>

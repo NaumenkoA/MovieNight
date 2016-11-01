@@ -8,15 +8,20 @@ import android.os.Bundle;
 
 import com.alexapps.movienight.R;
 
-public class AlertNoInternetFragment extends DialogFragment {
+public class UserDialogFragment extends DialogFragment {
+    private String mTitle;
+    private String mMessage;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getActivity();
+        Bundle bundle = getArguments();
+        mTitle = bundle.getString(MainActivity.TITLE);
+        mMessage = bundle.getString(MainActivity.MESSAGE);
         AlertDialog.Builder builder = new AlertDialog.Builder(context).
-                setTitle(R.string.network_error).
-                setMessage(R.string.network_error_message).
+                setTitle(mTitle).
+                setMessage(mMessage).
                 setPositiveButton(R.string.ok_button, null);
         AlertDialog dialog = builder.create();
         return dialog;
     }
-}
+   }

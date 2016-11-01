@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alexapps.movienight.R;
 import com.alexapps.movienight.model.Genre;
@@ -27,12 +28,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -43,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String TAG = MainActivity.class.getSimpleName();
     public final static String GENRE_ARRAY = "GENRE_ARRAY";
     public final static String IS_MOVIE = "IS_MOVIE";
+    public final static String TITLE = "TITLE";
+    public final static String MESSAGE = "MESSAGE";
     static final int PICK_CONTACT_REQUEST = 1;
     @BindView(R.id.genres1InfoTextView) TextView mMovieGenresInfoTextView;
     @BindView(R.id.genres2InfoTextView) TextView mTVGenresInfoTextView;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.selectShowsGenreButton) Button mSelectShowsGenresButton;
     Genre [] mMovieGenres;
     Genre [] mTVShowGenres;
+    Movie [] mMoviesByRequest;
+    Movie [] mTVShowsByRequest;
     Years years = new Years();
 
 
@@ -94,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
         String urlMovieGenresList = "https://api.themoviedb.org/3/genre/movie/list?api_key=529915439cfafbc35e2bed2706c2eebd";
         String urlTVGenresList = "https://api.themoviedb.org/3/genre/tv/list?api_key=529915439cfafbc35e2bed2706c2eebd";
 
-        webRequest(urlMovieGenresList, "GET_MOVIE_GENRES");
-        webRequest(urlTVGenresList, "GET_TV_GENRES");
+        webRequest(urlMovieGenresList, "GET_MOVIE_GENRES", true);
+        webRequest(urlTVGenresList, "GET_TV_GENRES", false);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeGenreSelection(false);
+            }
+        });
+
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMovieListByRequest();
             }
         });
 
@@ -202,6 +212,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGenreActivity (boolean isMovie) {
+        if (mMovieGenres == null || mTVShowGenres == null) {
+            alertInternetError();
+            return;
+        }
     Intent intent = new Intent(this, GenreActivity.class);
     intent.putExtra (IS_MOVIE, isMovie);
         if (isMovie) {
@@ -233,7 +247,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void alertInternetError() {
-        AlertNoInternetFragment dialog = new AlertNoInternetFragment();
+        UserDialogFragment dialog = new UserDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(TITLE, getResources().getString(R.string.network_error));
+        bundle.putString(MESSAGE, getResources().getString(R.string.network_error_message));
+        dialog.setArguments(bundle);
         dialog.show(getFragmentManager(),getString(R.string.no_internet_tag));
     }
 
@@ -248,9 +266,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void alertError() {
-    AlertDialogFragment dialog = new AlertDialogFragment();
-    dialog.show(getFragmentManager(),getString(R.string.error_dialog));
-    }
+    Bundle bundle = new Bundle();
+    bundle.putString(TITLE, getResources().getString(R.string.error_title));
+    bundle.putString(MESSAGE, getResources().getString(R.string.error_message));
+    UserDialogFragment errorFragment = new UserDialogFragment();
+    errorFragment.setArguments(bundle);
+    errorFragment.show(getFragmentManager(),getString(R.string.error_dialog));
+        };
+
+
 
     public String getApiKey () {
         return "api_key=529915439cfafbc35e2bed2706c2eebd";
@@ -270,6 +294,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getReleaseYearFrom (boolean isMovie) {
+        if (mYearFromSpinner.getSelectedItem().equals(mYearToSpinner.getSelectedItem())){
+            if (isMovie) {
+                return "&primary_release_year=" + mYearFromSpinner.getSelectedItem();
+            } else {
+                return "&first_air_date_year=" + mYearFromSpinner.getSelectedItem();
+            }
+        } else
         if (isMovie) {
             return "&primary_release_date.gte=" + mYearFromSpinner.getSelectedItem();
         } else {
@@ -278,38 +309,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getReleaseYearTo (boolean isMovie) {
+        if (mYearFromSpinner.getSelectedItem().equals(mYearToSpinner.getSelectedItem())) {
+            return "";
+        }
         if (isMovie) {
             return "&primary_release_date.lte=" + mYearToSpinner.getSelectedItem();
         } else {
             return "&first_air_date.lte=" + mYearToSpinner.getSelectedItem();
         }
-    }
-
-    public String getSortParameter (boolean isMovie) {
-        if (isMovie) {
-            switch (mSortTypeSpinner.getSelectedItemPosition()) {
-                case (0): return "&sort_by=popularity";
-                case (1): return "&sort_by=primary_release_date";
-                case (2): return "&sort_by=revenue";
-                case (3): return "&sort_by=vote_average";
-                case (4): return "&sort_by=vote_count";
-            }
-        } else {
-            switch (mSortTypeSpinner.getSelectedItemPosition()) {
-                case (0): return "&sort_by=popularity";
-                case (1): return "&sort_by=first_air_date";
-                case (2): return "";
-                case (3): return "&sort_by=vote_average";
-                case (4): return "";
-                   }
-        }
-        return "";
-    }
-
-    public String getSortOrder (boolean isMovie) {
-        if (getSortParameter(isMovie).equals("")) {return "";}
-      if (mAscDescSpinner.getSelectedItemPosition() == 0) { return ".desc";}
-        else return ".asc";
     }
 
     public String createUserRequest (boolean isMovie) {
@@ -322,24 +329,59 @@ public class MainActivity extends AppCompatActivity {
         }
         return url +
                 getApiKey()+
-                getSortParameter(isMovie)+
-                getSortOrder(isMovie)+
+                getSortOrder()+
                 getReleaseYearFrom(isMovie)+
                 getReleaseYearTo(isMovie)+
                 getNumberOfVotes()+
-                getRatingThreshold();
-               //getGenres(index) +
+                getRatingThreshold()+
+                getSelectedGenres(isMovie);
         }
 
-    public Movie[] getMovieArrayByRequest(boolean isMovie) {
-      String jsonData =  createUserRequest(isMovie);
-        return null;
+    private String getSelectedGenres(boolean isMovie) {
+        String genresRequest = "";
+        Boolean allSelected = true;
+        Genre[] genres;
+        if (isMovie) {
+            genres = mMovieGenres;
+        } else {
+            genres = mTVShowGenres;
+        }
+        for (Genre genre : genres) {
+            if (genre.isSelected()) {
+                if (genresRequest == "") {
+                    genresRequest = "&with_genres=" + genre.getId();
+                } else {
+                    genresRequest = genresRequest + "|" + genre.getId();
+                }
+            } else {
+                allSelected = false;
+            }
+                    }
+        if (allSelected) return "";
+        return genresRequest;
+    }
 
-
+    private String getSortOrder() {
+        return "&sort_by=popularity.desc";
     }
 
 
-    public void webRequest (String url, final String tag) {
+    public void showMovieListByRequest() {
+        if (mMovieGenres == null || mTVShowGenres == null) {
+            alertInternetError();
+            return;
+        }
+        Log.v ("Request created:", createUserRequest(true));
+        if (!mMoviesCheckBox.isChecked()&&!mTVCheckBox.isChecked()) {
+            Toast.makeText(this, "Select movies or TV shows to search", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mMoviesCheckBox.isChecked()) webRequest(createUserRequest(true), "USER_REQUEST", true);
+        if (mTVCheckBox.isChecked()) webRequest(createUserRequest(false), "USER_REQUEST", false);
+    }
+
+
+    public void webRequest (String url, final String tag, final boolean isMovie) {
     if (networkIsAvailable()) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
@@ -376,8 +418,12 @@ public class MainActivity extends AppCompatActivity {
                             });
                         }
                         if (tag.equals("USER_REQUEST")) {
-
-                            runOnUiThread(new Runnable() {
+                            if (isMovie) {
+                                mMoviesByRequest = getMoviesArray(resp, true);
+                            } else {
+                                mTVShowsByRequest = getMoviesArray(resp, false);
+                            }
+                                runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
@@ -390,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
                         alertError();
                     }
                 } catch (IOException e) {
-                    Log.e("Error loading data", "Exeption caught: ", e);
+                    Log.e("Error loading data", "Exception caught: ", e);
                 }
             }
         });
@@ -401,5 +447,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+    private Movie[] getMoviesArray(String jsonData, boolean isMovie) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            JSONArray jsonArray = jsonObject.getJSONArray("results");
+            Movie[] movies =  new Movie[jsonArray.length()];
+            for (int i=0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                String title;
+                int releaseDate;
+                if (isMovie) {
+                    title = object.getString("title");
+                    releaseDate = getDateFromJSON (object.getString("release_date"));
+                } else {
+                    title = object.getString("name");
+                    releaseDate = getDateFromJSON (object.getString("first_air_date"));
+                }
+                String overview = object.getString("overview");
+                double vote = object.getDouble("vote_average");
+                int [] genres = getGenresFromJSON(object);
+                movies [i] = new Movie(title, overview, genres, vote, releaseDate);
+            }
+            return movies;
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON Exception: ");
+        }
+        return null;
+    }
 
-       }
+    private int getDateFromJSON(String release_date) {
+        String dateAsString = release_date.substring(0,3);
+        return Integer.parseInt(dateAsString);
+    }
+
+    private int[] getGenresFromJSON(JSONObject object) {
+        int [] genres;
+        try {
+            JSONArray genresArray = object.getJSONArray("genre_ids");
+            genres = new int[genresArray.length()];
+            for (int i = 0; i < genresArray.length();i++) {
+                genres [i] = genresArray.optInt(i);
+            }
+            return genres;
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON Exception: ");
+        }
+        return null;
+    }
+
+    }

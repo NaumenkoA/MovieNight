@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GenreActivity extends Activity {
+public class GenreActivity extends AppCompatActivity {
     private Genre[] mGenre;
     private boolean mIsMovies;
     GenreAdapter mAdapter;
