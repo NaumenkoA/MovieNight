@@ -1,10 +1,15 @@
 <resources>
-    <string-array name="array_sort_by">
+    <string-array name="array_movies_sort_by">
         <item>popularity</item>
         <item>release date</item>
-        <item>revenue (movies only)</item>
+        <item>revenue</item>
         <item>average vote</item>
-        <item>number of votes (movies only)</item>
+        <item>number of votes</item>
+    </string-array>
+    <string-array name="array_shows_sort_by">
+        <item>popularity</item>
+        <item>first air date</item>
+        <item>average vote</item>
     </string-array>
     <string-array name="array_view_results">
         <item>top to bottom</item>
@@ -20,7 +25,7 @@
     <string name="no_internet_tag">no internet error</string>
     <string name="find_your_movie">Find YOUR movie</string>
     <string name="movie_night">MOVIE NIGHT</string>
-    <string name="submit_button">SUBMIT</string>
+    <string name="submit_button">SEARCH</string>
     <string name="search_for">Search for:</string>
     <string name="movies_checkbox">Movies</string>
     <string name="tv_shows_checkbox">TV shows</string>
@@ -29,7 +34,7 @@
     <string name="rating_and_release_dates">Rating and Release dates</string>
     <string name="movie_rating">Minimum rating:</string>
     <string name="number_of_votes">Number of votes:</string>
-    <string name="release_dates">Release dates:</string>
+    <string name="release_dates">Released:</string>
     <string name="dash">-</string>
     <string name="sort">Sort</string>
     <string name="sort_by">Sort by:</string>
@@ -42,4 +47,13 @@
     <string name="select_all">SELECT ALL</string>
     <string name="select_movie_genres">Select movie genres:</string>
     <string name="select_show_genres">Select TV Shows genres:</string>
+    <string name="transformers">Transformers</string>
+    <string name="_2012">2012</string>
+    <string name="_10">10.0</string>
+    <string name="genres">Genre(s): Action, Fiction</string>
+    <string name="movies">MOVIES</string>
+    <string name="tv_shows">TV SHOWS</string>
+    <string name="sort_results">Sort Results</string>
+    <string name="movies_sort">Movies:</string>
+    <string name="tv_shows_sort">TV Shows:</string>
 </resources>

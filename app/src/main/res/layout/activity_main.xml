@@ -5,42 +5,37 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="20dp"
+    android:paddingLeft="30dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="20dp"
     tools:context="com.alexapps.movienight.ui.MainActivity"
     android:background="#01d277">
-
-    <TextView
-        android:text="@string/movie_night"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/titleTextView"
-        android:textColor="@color/colorPrimary"
-        android:textSize="34sp"
-        android:textAlignment="center"
-        android:textStyle="normal|bold"
-        android:layout_marginTop="14dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="100"
         android:layout_above="@+id/submitButton"
-        android:layout_below="@+id/typeInfoTextView"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="@string/search_for"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/typeInfoTextView"
+            android:textSize="23sp"
+            android:textColor="#ffffff"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_height="wrap_content"
             android:weightSum="100">
 
             <CheckBox
@@ -68,8 +63,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:weightSum="100">
 
             <TextView
@@ -77,29 +72,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/genres1InfoTextView"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="45"/>
+                android:layout_weight="35"/>
 
             <TextView
                 tools:text="@string/all_genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/selectedMovieGenresTextView"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="45"/>
+                android:layout_weight="50"/>
 
             <Button
                 android:text="@string/dots"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/selectMovieGenresButton"
-                android:layout_weight="10"
-                android:textSize="10sp"
+                android:layout_weight="14"
+                android:textSize="12sp"
                 android:textColor="#ffffffff"
-                android:background="@color/colorPrimary"
-                android:elevation="1dp"/>
+                android:background="@color/colorPrimary" />
 
 
         </LinearLayout>
@@ -107,36 +101,34 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="13"
+            android:layout_height="wrap_content"
             android:weightSum="100"
-            android:paddingTop="10dp"
-            android:elevation="0dp">
+            android:paddingTop="10dp">
 
             <TextView
                 android:text="@string/tv_show_genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/genres2InfoTextView"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="45"/>
+                android:layout_weight="35"/>
 
             <TextView
                 tools:text="@string/all_genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/selectedTVGenresTextView"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="45"/>
+                android:layout_weight="50"/>
 
             <Button
                 android:text="@string/dots"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/selectShowsGenreButton"
-                android:layout_weight="10"
+                android:layout_weight="14"
                 android:textSize="10sp"
                 android:textColor="#ffffffff"
                 android:background="@color/colorPrimary"
@@ -145,29 +137,21 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
+            android:text="@string/rating_and_release_dates"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:weightSum="100">
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingHeaderTextView"
+            android:paddingTop="20dp"
+            android:textSize="23sp"
+            android:textColor="#ffffff"
+            android:textStyle="normal|bold" />
 
-            <TextView
-                android:text="@string/rating_and_release_dates"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratingHeaderTextView"
-                android:textSize="23sp"
-                android:textColor="#ffffff"
-                android:textStyle="normal|bold"
-                android:layout_weight="100"/>
-        </LinearLayout>
-
-        <LinearLayout
+       <LinearLayout
             android:orientation="horizontal"
+            android:paddingTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_height="wrap_content"
             android:weightSum="100">
 
             <TextView
@@ -175,7 +159,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/ratingInfoTextView"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#ccffffff"
                 android:layout_weight="45"/>
 
@@ -198,8 +182,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:weightSum="100">
 
             <TextView
@@ -207,7 +191,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/votesInfotextView"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#ccffffff"
                 android:layout_weight="45"/>
 
@@ -218,7 +202,7 @@
                 android:ems="10"
                 android:id="@+id/votesEditText"
                 android:layout_weight="35"
-                android:hint="100"
+                android:hint="10"
                 android:textSize="16sp"
                 android:background="@android:color/white"
                 android:textColor="#01d277"
@@ -230,24 +214,25 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:weightSum="100"
-            android:layout_weight="10">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:text="@string/release_dates"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/releaseDatesInfoTextView"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="39"/>
+                android:layout_weight="30"/>
 
             <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/yearFromSpinner"
-                android:layout_weight="28"/>
+                android:layout_weight="35"/>
+
 
             <TextView
                 android:text="@string/dash"
@@ -263,73 +248,79 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/yearToSpinner"
-                android:layout_weight="28"/>
+                android:layout_weight="35"/>
 
         </LinearLayout>
+
+        <TextView
+            android:text="@string/sort_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sortHeaderTextView"
+            android:paddingTop="20dp"
+            android:textSize="23sp"
+            android:textColor="#ffffff"
+            android:textStyle="normal|bold" />
+
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:text="@string/movies_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sortMoviesInfoTextView"
+            android:layout_weight="26"
+            android:textSize="16sp"
+            android:textColor="#ccffffff"
+            android:gravity="left"/>
+
+       <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/moviesSortOrderSpinner"
+            android:layout_weight="45"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/moviesAscDescSpinner"
+            android:layout_weight="34"/>
+    </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:weightSum="100">
 
             <TextView
-                android:text="@string/sort_by"
+                android:text="@string/tv_shows_sort"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/sortByInfoTextView"
-                android:textSize="18sp"
+                android:id="@+id/sortShowsInfoTextView"
+                android:layout_weight="26"
+                android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_marginTop="5dp"
-                android:layout_weight="45"/>
+                android:gravity="left"/>
 
             <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/sortTypeSpinner"
-                android:layout_weight="55"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:weightSum="100">
-
-            <TextView
-                android:text="@string/view_results"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/viewSortInfoTextView"
-                android:textSize="18sp"
-                android:textColor="#ccffffff"
-                android:layout_marginTop="5dp"
+                android:id="@+id/showsSortOrderSpinner"
                 android:layout_weight="45"/>
-
             <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/SortAscDescSpinner"
-                android:layout_weight="55"/>
+                android:id="@+id/showsAscDescSpinner"
+                android:layout_weight="34"/>
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:text="@string/search_for"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/typeInfoTextView"
-        android:textSize="23sp"
-        android:textColor="#ffffff"
-        android:textStyle="normal|bold"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/titleTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
 
     <Button
         android:text="@string/submit_button"

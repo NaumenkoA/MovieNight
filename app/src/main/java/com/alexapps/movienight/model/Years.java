@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Years {
-    private ArrayList<String> mYears;
+    private String[] mYears;
 
-    public ArrayList<String> getYears() {
+    public String[] getYears() {
         return mYears;
     }
 
-    public void setYears(ArrayList<String> years) {
+    public void setYears(String[] years) {
         mYears = years;
     }
 
     public Years () {
-        mYears = new ArrayList<>();
+        mYears = new String[2016-1889];
         int count =0;
         for (int i=2016; i>1889; i--) {
-            mYears.add (i+"");
+            mYears[count] = i + "";
+            count++;
         }
         }
 }

@@ -57,17 +57,18 @@ public class Genre implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mName);
-        dest.writeInt(mId);
-        dest.writeInt (convertFromBoolean(mIsSelected));
-           }
+        dest.writeString(this.mName);
+        dest.writeInt(this.mId);
+        dest.writeByte(this.mIsSelected ? (byte) 1 : (byte) 0);
+    }
 
-    public Genre (Parcel in) {
-        mName = in.readString();
-        mId = in.readInt();
-        mIsSelected = convertToBoolean(in.readInt ());
-          }
-    public final static Creator <Genre> CREATOR = new Creator<Genre>() {
+    protected Genre(Parcel in) {
+        this.mName = in.readString();
+        this.mId = in.readInt();
+        this.mIsSelected = in.readByte() != 0;
+    }
+
+    public static final Creator<Genre> CREATOR = new Creator<Genre>() {
         @Override
         public Genre createFromParcel(Parcel source) {
             return new Genre(source);
@@ -77,6 +78,5 @@ public class Genre implements Parcelable {
         public Genre[] newArray(int size) {
             return new Genre[size];
         }
-
     };
 }

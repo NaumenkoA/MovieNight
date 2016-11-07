@@ -20,8 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.GenreActivity"></activity>
-        <activity android:name=".ui.MovieListActivity"></activity>
+        <activity android:name=".ui.GenreActivity"
+            android:screenOrientation="portrait">
+                    </activity>
+        <activity android:name=".ui.MovieListActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
