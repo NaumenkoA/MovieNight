@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.moviesSortOrderSpinner) Spinner mMoviesSortOrderSpinner;
     @BindView(R.id.moviesAscDescSpinner) Spinner mMoviesAscDescSpinner;
     Genre[] mMovieGenres;
+    String mUrlMovieGenresList;
     Years years = new Years();
 
 
@@ -65,13 +66,14 @@ public class MainActivity extends AppCompatActivity {
         setSpinnerAdapter(getResources().getStringArray(R.array.array_movies_sort_by), mMoviesSortOrderSpinner);
         setSpinnerAdapter(getResources().getStringArray(R.array.array_view_results), mMoviesAscDescSpinner);
 
-        String urlMovieGenresList = "https://api.themoviedb.org/3/genre/movie/list?api_key=529915439cfafbc35e2bed2706c2eebd";
+        mUrlMovieGenresList = "https://api.themoviedb.org/3/genre/movie/list?api_key=529915439cfafbc35e2bed2706c2eebd";
 
-        webRequest(urlMovieGenresList, GET_GENRES);
+        webRequest(mUrlMovieGenresList, GET_GENRES);
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            if (!checkGenresAreAvailable()) {return;}
             String request = createUserRequest();
             Intent intent = new Intent(MainActivity.this, MovieListActivity.class);
             intent.putExtra (MOVIE_GENRES, mMovieGenres);
@@ -128,13 +130,33 @@ public class MainActivity extends AppCompatActivity {
             }
 
     public void startGenreActivity() {
-        if (mMovieGenres == null) {
-            alertInternetError();
-            return;
-        }
+        if (!checkGenresAreAvailable()) return;
         Intent intent = new Intent(this, GenreActivity.class);
         intent.putExtra(GENRE_ARRAY, mMovieGenres);
         startActivityForResult(intent, PICK_CONTACT_REQUEST);
+    }
+
+    private boolean checkGenresAreAvailable() {
+        if (mMovieGenres == null) {
+            if (!networkIsAvailable()) {
+                alertInternetError();
+                return false;
+            }
+            webRequest(mUrlMovieGenresList, GET_GENRES);
+        }
+        if (mMovieGenres == null) {
+            alertTryAgain();
+            return false;}
+       return true;
+    }
+
+    private void alertTryAgain() {
+        UserDialogFragment dialog = new UserDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(TITLE, getString(R.string.select_genres));
+        bundle.putString(MESSAGE, getString(R.string.message_try_again));
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager(), getString(R.string.select));
     }
 
 
