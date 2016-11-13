@@ -2,7 +2,6 @@ package com.alexapps.movienight.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Parcelable;
@@ -12,15 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.alexapps.movienight.R;
 import com.alexapps.movienight.model.Genre;
-import com.alexapps.movienight.model.Movie;
 import com.alexapps.movienight.model.Years;
 
 import org.json.JSONArray;

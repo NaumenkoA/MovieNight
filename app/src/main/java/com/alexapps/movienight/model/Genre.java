@@ -19,15 +19,6 @@ public class Genre implements Parcelable {
 
     public Genre () {}
 
-    public int convertFromBoolean (boolean isSelected) {
-        if (isSelected) return 1;
-        else return 0;
-    }
-
-    public boolean convertToBoolean (int number) {
-        return number == 1;
-    }
-
     public Genre (String name, int id) {
         mName = name;
         mId = id;

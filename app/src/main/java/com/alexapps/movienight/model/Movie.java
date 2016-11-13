@@ -12,7 +12,6 @@ public class Movie implements Parcelable {
     private Genre[] mGenres;
     private double mAverageVote;
     private String mReleaseDate;
-    public final static String GENRES = "GENRES";
 
     public Movie () {}
 

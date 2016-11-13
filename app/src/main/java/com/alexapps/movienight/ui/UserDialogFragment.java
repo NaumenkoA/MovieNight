@@ -21,7 +21,6 @@ public class UserDialogFragment extends DialogFragment {
                 setTitle(mTitle).
                 setMessage(mMessage).
                 setPositiveButton(R.string.ok_button, null);
-        AlertDialog dialog = builder.create();
-        return dialog;
-    }
+        return builder.create();
+        }
    }
