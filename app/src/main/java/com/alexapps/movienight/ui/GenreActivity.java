@@ -1,21 +1,16 @@
 package com.alexapps.movienight.ui;
 
-import android.app.Activity;
-import android.app.ListActivity;
+
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.alexapps.movienight.R;
 import com.alexapps.movienight.adapters.GenreAdapter;
 import com.alexapps.movienight.model.Genre;
@@ -28,7 +23,6 @@ import butterknife.OnClick;
 
 public class GenreActivity extends AppCompatActivity {
     private Genre[] mGenre;
-    private boolean mIsMovies;
     GenreAdapter mAdapter;
     @BindView(R.id.genreList) ListView mListView;
     @BindView(R.id.emptyListTextView) TextView mEmptyTextView;
@@ -41,7 +35,6 @@ public class GenreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_genre);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        mIsMovies = intent.getBooleanExtra(MainActivity.IS_MOVIE, true);
         Parcelable[] parcelables = intent.getParcelableArrayExtra(MainActivity.GENRE_ARRAY);
         mGenre = Arrays.copyOf(parcelables, parcelables.length, Genre[].class);
         mAdapter = new GenreAdapter(this, mGenre);
@@ -58,11 +51,6 @@ public class GenreActivity extends AppCompatActivity {
                 }
                      }
         });
-        if (mIsMovies) {
-            mSelectTextView.setText(getResources().getString(R.string.select_movie_genres));
-        } else {
-            mSelectTextView.setText(R.string.select_show_genres);
-        }
         setSelectAllCheckBox ();
                    }
 
@@ -79,7 +67,6 @@ public class GenreActivity extends AppCompatActivity {
             return;
         }
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.IS_MOVIE, mIsMovies);
         intent.putExtra(MainActivity.GENRE_ARRAY, mGenre);
         setResult(RESULT_OK,intent);
     finish();

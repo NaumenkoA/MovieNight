@@ -4,20 +4,19 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 
 public class Movie implements Parcelable {
 
     private String mTitle;
     private String mOverview;
-    private String mGenres;
+    private Genre[] mGenres;
     private double mAverageVote;
     private String mReleaseDate;
     public final static String GENRES = "GENRES";
 
     public Movie () {}
 
-    public Movie (String title, String overview, String genres, double averageVote, String releaseDate) {
+    public Movie (String title, String overview, Genre[] genres, double averageVote, String releaseDate) {
         mTitle = title;
         mOverview = overview;
         mGenres = genres;
@@ -25,12 +24,29 @@ public class Movie implements Parcelable {
         mReleaseDate = releaseDate;
     }
 
+    public String convertGenresToString () {
+        String genreNames = "";
+        for (Genre genre: mGenres) {
+            if (genreNames.equals("")) {
+                genreNames = genre.getName();
+            } else {
+                genreNames = genreNames + ", " + genre.getName();
+            }
+        }
+        if (mGenres.length ==1) {return "Genre: " + genreNames;}
+        else {return "Genres: "+ genreNames;}
+    }
+
+    public String getMoviePlusYear () {
+        return getTitle() + " (" + getReleaseYearAsString() + ")";
+    }
+
     public String getVoteAsString () {
         return new DecimalFormat("#0.0").format(mAverageVote);
             }
 
     public String getReleaseYearAsString () {
-        return mReleaseDate.substring(0,3);
+        return mReleaseDate.substring(0,4);
             }
 
 
@@ -59,11 +75,11 @@ public class Movie implements Parcelable {
         mOverview = overview;
     }
 
-    public String getGenres() {
+    public Genre[] getGenres() {
         return mGenres;
     }
 
-    public void setGenres(String genres) {
+    public void setGenres(Genre[] genres) {
         mGenres = genres;
     }
 
@@ -84,7 +100,7 @@ public class Movie implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.mTitle);
         dest.writeString(this.mOverview);
-        dest.writeString(this.mGenres);
+        dest.writeTypedArray(this.mGenres, flags);
         dest.writeDouble(this.mAverageVote);
         dest.writeString(this.mReleaseDate);
     }
@@ -92,7 +108,7 @@ public class Movie implements Parcelable {
     protected Movie(Parcel in) {
         this.mTitle = in.readString();
         this.mOverview = in.readString();
-        this.mGenres = in.readString();
+        this.mGenres = in.createTypedArray(Genre.CREATOR);
         this.mAverageVote = in.readDouble();
         this.mReleaseDate = in.readString();
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -12,17 +13,27 @@
     tools:context="com.alexapps.movienight.ui.MainActivity"
     android:background="#01d277">
 
+    <Button
+        android:text="@string/submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitButton"
+        android:textSize="20sp"
+        android:background="#40ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/submitButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
         <TextView
-            android:text="@string/search_for"
+            android:text="@string/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/typeInfoTextView"
@@ -36,103 +47,36 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="100">
-
-            <CheckBox
-                android:text="@string/movies_checkbox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/moviesCheckBox"
-                android:checked="true"
-                android:textSize="16sp"
-                android:textColor="#ccffffff"
-                android:layout_weight="50"
-                />
-
-            <CheckBox
-                android:text="@string/tv_shows_checkbox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/showsCheckBox"
-                android:textSize="16sp"
-                android:textColor="#ccffffff"
-                android:layout_weight="50"
-                android:checked="true"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:weightSum="100">
 
             <TextView
-                android:text="@string/movie_genres"
+                android:text="@string/genres_to_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/genres1InfoTextView"
                 android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="35"/>
+                android:layout_weight="25"/>
 
             <TextView
                 tools:text="@string/all_genres"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:id="@+id/selectedMovieGenresTextView"
                 android:textSize="16sp"
                 android:textColor="#ccffffff"
-                android:layout_weight="50"/>
+                android:layout_weight="60"/>
 
             <Button
                 android:text="@string/dots"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/selectMovieGenresButton"
-                android:layout_weight="14"
+                android:layout_weight="15"
                 android:textSize="12sp"
                 android:textColor="#ffffffff"
                 android:background="@color/colorPrimary" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="100"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:text="@string/tv_show_genres"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/genres2InfoTextView"
-                android:textSize="16sp"
-                android:textColor="#ccffffff"
-                android:layout_weight="35"/>
-
-            <TextView
-                tools:text="@string/all_genres"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/selectedTVGenresTextView"
-                android:textSize="16sp"
-                android:textColor="#ccffffff"
-                android:layout_weight="50"/>
-
-            <Button
-                android:text="@string/dots"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/selectShowsGenreButton"
-                android:layout_weight="14"
-                android:textSize="10sp"
-                android:textColor="#ffffffff"
-                android:background="@color/colorPrimary"
-                android:elevation="1dp"/>
 
 
         </LinearLayout>
@@ -183,12 +127,13 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
             android:weightSum="100">
 
             <TextView
                 android:text="@string/number_of_votes"
                 android:layout_width="0dp"
+                android:paddingTop="10dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/votesInfotextView"
                 android:textSize="16sp"
@@ -215,6 +160,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
             android:weightSum="100"
             android:layout_marginTop="10dp">
 
@@ -269,68 +215,43 @@
         android:layout_marginTop="10dp"
         android:weightSum="100">
 
-        <TextView
-            android:text="@string/movies_sort"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/sortMoviesInfoTextView"
-            android:layout_weight="26"
-            android:textSize="16sp"
-            android:textColor="#ccffffff"
-            android:gravity="left"/>
-
-       <Spinner
+            <Spinner
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/moviesSortOrderSpinner"
-            android:layout_weight="45"/>
+            android:layout_weight="60"/>
         <Spinner
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/moviesAscDescSpinner"
-            android:layout_weight="34"/>
-    </LinearLayout>
+            android:layout_weight="40"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:weightSum="100">
-
-            <TextView
-                android:text="@string/tv_shows_sort"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/sortShowsInfoTextView"
-                android:layout_weight="26"
-                android:textSize="16sp"
-                android:textColor="#ccffffff"
-                android:gravity="left"/>
-
-            <Spinner
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/showsSortOrderSpinner"
-                android:layout_weight="45"/>
-            <Spinner
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/showsAscDescSpinner"
-                android:layout_weight="34"/>
         </LinearLayout>
 
-    </LinearLayout>
-
-    <Button
-        android:text="@string/submit_button"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/submitButton"
-        android:textSize="20sp"
-        android:background="#40ffffff"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:paddingTop="20dp"
+        android:weightSum="100"
+        >
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:srcCompat="@drawable/tmdb_logo"
+            android:id="@+id/tmdbImageView"
+            android:layout_weight="10"/>
+
+        <TextView
+            android:text="@string/attribution"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:id="@+id/attTextView"
+            android:layout_weight="90"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+</LinearLayout>
 
 </RelativeLayout>

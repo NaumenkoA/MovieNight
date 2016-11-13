@@ -1,5 +1,8 @@
 package com.alexapps.movienight.adapters;
 
+import android.app.FragmentManager;
+import android.content.Context;
+import android.os.Bundle;
 import android.preference.TwoStatePreference;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +12,8 @@ import android.widget.TextView;
 
 import com.alexapps.movienight.R;
 import com.alexapps.movienight.model.Movie;
+import com.alexapps.movienight.ui.MainActivity;
+import com.alexapps.movienight.ui.UserDialogFragment;
 
 import org.w3c.dom.Text;
 
@@ -17,7 +22,9 @@ import java.util.zip.Inflater;
 public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.MovieViewHolder> {
 
     private Movie[] mMovies;
-    public MovieAdapter (Movie [] movies) {
+    private FragmentManager mFragmentManager;
+    public MovieAdapter (FragmentManager manager, Movie [] movies) {
+        mFragmentManager = manager;
         mMovies = movies;
     }
 
@@ -39,26 +46,40 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.MovieViewHo
         return mMovies.length;
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder
+    implements View.OnClickListener {
 
+        private static final String MOVIE_OVERVIEW = "MOVIE OVERVIEW IN FRAGMENT";
         public TextView mTitle;
         public TextView mGenres;
         public TextView mRate;
-        public TextView mReleaseYear;
+        public Movie mMovie;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
             mTitle = (TextView) itemView.findViewById(R.id.titleTextView);
             mGenres = (TextView) itemView.findViewById(R.id.genreTextView);
             mRate = (TextView) itemView.findViewById(R.id.ratingTextView);
-            mReleaseYear = (TextView) itemView.findViewById(R.id.yearTextView);
-        }
+            itemView.setOnClickListener(this);
+            }
 
         public void bindMovie (Movie movie) {
-            mTitle.setText (movie.getTitle());
-            mGenres.setText (movie.getGenres());
+            mTitle.setText (movie.getMoviePlusYear());
+            mGenres.setText (movie.convertGenresToString());
             mRate.setText(movie.getVoteAsString());
-            mReleaseYear.setText(movie.getReleaseYearAsString());
+            mMovie = movie;
+            }
+
+        @Override
+        public void onClick(View v) {
+            String title = mMovie.getTitle();
+            String overview = mMovie.getOverview();
+            UserDialogFragment dialog = new UserDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(MainActivity.TITLE, title);
+            bundle.putString(MainActivity.MESSAGE, overview);
+            dialog.setArguments(bundle);
+            dialog.show(mFragmentManager, MOVIE_OVERVIEW);
         }
     }
 

@@ -41,57 +41,22 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     public final static String TAG = MainActivity.class.getSimpleName();
     public final static String GENRE_ARRAY = "GENRE_ARRAY";
-    public final static String IS_MOVIE = "IS_MOVIE";
     public final static String TITLE = "TITLE";
     public final static String MESSAGE = "MESSAGE";
-    public final static String FLAG = "FLAG";
-    public final static String MOVIES = "MOVIES";
-    public final static String SHOWS = "SHOWS";
-    public final static String BUNDLE = "BUNDLE";
+    public final static String GET_GENRES = "GET_MOVIE_GENRES";
+    public final static String USER_REQUEST = "USER_REQUEST";
     static final int PICK_CONTACT_REQUEST = 1;
-    @BindView(R.id.genres1InfoTextView)
-    TextView mMovieGenresInfoTextView;
-    @BindView(R.id.genres2InfoTextView)
-    TextView mTVGenresInfoTextView;
-    @BindView(R.id.moviesCheckBox)
-    CheckBox mMoviesCheckBox;
-    @BindView(R.id.yearFromSpinner)
-    Spinner mYearFromSpinner;
-    @BindView(R.id.yearToSpinner)
-    Spinner mYearToSpinner;
-    @BindView(R.id.showsCheckBox)
-    CheckBox mTVCheckBox;
-    @BindView(R.id.ratingEditText)
-    EditText mRatingEditText;
-    @BindView(R.id.votesEditText)
-    EditText mVotesEditText;
-    @BindView(R.id.selectedMovieGenresTextView)
-    TextView mSelectedMovieGenres;
-    @BindView(R.id.selectedTVGenresTextView)
-    TextView mSelectedTVGenres;
-    @BindView(R.id.submitButton)
-    Button mSubmitButton;
-    @BindView(R.id.selectMovieGenresButton)
-    Button mSelectMovieGenresButton;
-    @BindView(R.id.selectShowsGenreButton)
-    Button mSelectShowsGenresButton;
-    @BindView(R.id.moviesSortOrderSpinner)
-    Spinner mMoviesSortOrderSpinner;
-    @BindView(R.id.moviesAscDescSpinner)
-    Spinner mMoviesAscDescSpinner;
-    @BindView(R.id.showsSortOrderSpinner)
-    Spinner mShowsSortOrderSpinner;
-    @BindView(R.id.showsAscDescSpinner)
-    Spinner mShowsAscDescSpinner;
-    @BindView(R.id.sortMoviesInfoTextView)
-    TextView mSortMoviesInfoTextView;
-    @BindView(R.id.sortShowsInfoTextView)
-    TextView mSortShowsInfoTextView;
+    public static final String MOVIE_GENRES = "MOVIE_GENRES";
+    @BindView(R.id.yearFromSpinner) Spinner mYearFromSpinner;
+    @BindView(R.id.yearToSpinner) Spinner mYearToSpinner;
+    @BindView(R.id.ratingEditText) EditText mRatingEditText;
+    @BindView(R.id.votesEditText) EditText mVotesEditText;
+    @BindView(R.id.selectedMovieGenresTextView) TextView mSelectedMovieGenres;
+    @BindView(R.id.submitButton) Button mSubmitButton;
+    @BindView(R.id.selectMovieGenresButton) Button mSelectMovieGenresButton;
+    @BindView(R.id.moviesSortOrderSpinner) Spinner mMoviesSortOrderSpinner;
+    @BindView(R.id.moviesAscDescSpinner) Spinner mMoviesAscDescSpinner;
     Genre[] mMovieGenres;
-    Genre[] mTVShowGenres;
-    Movie[] mMoviesByRequest;
-    Movie[] mShowsByRequest;
-    Bundle mBundle;
     Years years = new Years();
 
 
@@ -100,75 +65,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mBundle = new Bundle();
         setSpinnerAdapter(years.getYears(), mYearFromSpinner);
         setSpinnerAdapter(years.getYears(), mYearToSpinner);
         setSpinnerAdapter(getResources().getStringArray(R.array.array_movies_sort_by), mMoviesSortOrderSpinner);
         setSpinnerAdapter(getResources().getStringArray(R.array.array_view_results), mMoviesAscDescSpinner);
-        setSpinnerAdapter(getResources().getStringArray(R.array.array_shows_sort_by), mShowsSortOrderSpinner);
-        setSpinnerAdapter(getResources().getStringArray(R.array.array_view_results), mShowsAscDescSpinner);
 
         String urlMovieGenresList = "https://api.themoviedb.org/3/genre/movie/list?api_key=529915439cfafbc35e2bed2706c2eebd";
-        String urlTVGenresList = "https://api.themoviedb.org/3/genre/tv/list?api_key=529915439cfafbc35e2bed2706c2eebd";
 
-        webRequest(urlMovieGenresList, "GET_MOVIE_GENRES", true);
-        webRequest(urlTVGenresList, "GET_TV_GENRES", false);
+        webRequest(urlMovieGenresList, GET_GENRES);
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = createUserRequest(true);
-                Log.v("User request:", url);
+            String request = createUserRequest();
+            Intent intent = new Intent(MainActivity.this, MovieListActivity.class);
+            intent.putExtra (MOVIE_GENRES, mMovieGenres);
+            intent.putExtra(USER_REQUEST, request);
+            startActivity(intent);
             }
         });
         mSelectMovieGenresButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startGenreActivity(true);
-            }
-        });
-        mSelectShowsGenresButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startGenreActivity(false);
+                startGenreActivity();
             }
         });
 
-        mMoviesCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeGenreSelection(true);
-            }
-        });
-        mTVCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeGenreSelection(false);
-            }
-        });
+        }
 
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (searchMoviesByRequest()) {
-                int flag = getWhatWasSearched();
-                mBundle.putInt(FLAG,flag);
-                mBundle.putParcelableArray (MOVIES, mMoviesByRequest);
-                mBundle.putParcelableArray(SHOWS, mShowsByRequest);
-                Intent intent = new Intent(MainActivity.this, MovieListActivity.class);
-                    intent.putExtra(BUNDLE, mBundle);
-                    startActivity(intent);
-                    }
-            }
-        });
-
-    }
-
-    private int getWhatWasSearched() {
-        if (mMoviesCheckBox.isChecked() && mTVCheckBox.isChecked()) return 2;
-        if (mMoviesCheckBox.isChecked()) return 0;
-        if (mTVCheckBox.isChecked()) return 1;
-        return 0;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -176,34 +100,20 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PICK_CONTACT_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Parcelable[] parcelables = data.getParcelableArrayExtra(GENRE_ARRAY);
-                Genre[] genres = Arrays.copyOf(parcelables, parcelables.length, Genre[].class);
-                boolean isMovie = data.getBooleanExtra(IS_MOVIE, true);
-                if (isMovie) {
-                    mMovieGenres = genres;
-                } else {
-                    mTVShowGenres = genres;
-                }
-                refreshGenreTextView(isMovie);
+                mMovieGenres = Arrays.copyOf(parcelables, parcelables.length, Genre[].class);
+                showSelectedGenres();
             }
         }
     }
 
-    private void refreshGenreTextView(boolean isMovie) {
-        if (isMovie) {
-            showSelectedGenres(mMovieGenres, true);
-        } else {
-            showSelectedGenres(mTVShowGenres, false);
-        }
-    }
-
-    private void showSelectedGenres(Genre[] genres, boolean isMovie) {
+    private void showSelectedGenres() {
         String selectedGenres = "";
         boolean allGenres = true;
         int count = 0;
-        for (Genre genre : genres) {
+        for (Genre genre : mMovieGenres) {
             if (genre.isSelected()) {
                 count++;
-                if (count >= 4) {
+                if (count > 4) {
                     selectedGenres = selectedGenres +
                             ", ...";
                     break;
@@ -219,51 +129,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (allGenres) selectedGenres = getResources().getString(R.string.all_genres);
-        if (isMovie) mSelectedMovieGenres.setText(selectedGenres);
-        else mSelectedTVGenres.setText(selectedGenres);
-    }
+        mSelectedMovieGenres.setText(selectedGenres);
+            }
 
-
-    private void changeGenreSelection(boolean isMovie) {
-        if (isMovie) {
-            revertStates(mMoviesCheckBox, mMovieGenresInfoTextView, mSelectedMovieGenres, mSelectMovieGenresButton,
-                    mSortMoviesInfoTextView, mMoviesSortOrderSpinner, mMoviesAscDescSpinner);
-        } else {
-            revertStates(mTVCheckBox, mTVGenresInfoTextView, mSelectedTVGenres, mSelectShowsGenresButton,
-                    mSortShowsInfoTextView, mShowsSortOrderSpinner, mShowsAscDescSpinner);
-        }
-    }
-
-    private void revertStates(CheckBox checkbox, TextView textView1, TextView textView2,
-                              Button button, TextView textView3, Spinner spinner1, Spinner spinner2) {
-        button.setEnabled(checkbox.isChecked());
-        spinner1.setEnabled(checkbox.isChecked());
-        spinner2.setEnabled(checkbox.isChecked());
-        if (checkbox.isChecked()) {
-            setTextColor(textView1, textView2, textView3, "#ccffffff");
-        } else {
-            setTextColor(textView1, textView2, textView3, "#848587");
-        }
-    }
-
-    private void setTextColor(TextView textView1, TextView textView2, TextView textView3, String color) {
-        textView1.setTextColor(Color.parseColor(color));
-        textView2.setTextColor(Color.parseColor(color));
-        textView3.setTextColor(Color.parseColor(color));
-    }
-
-    public void startGenreActivity(boolean isMovie) {
-        if (mMovieGenres == null || mTVShowGenres == null) {
+    public void startGenreActivity() {
+        if (mMovieGenres == null) {
             alertInternetError();
             return;
         }
         Intent intent = new Intent(this, GenreActivity.class);
-        intent.putExtra(IS_MOVIE, isMovie);
-        if (isMovie) {
-            intent.putExtra(GENRE_ARRAY, mMovieGenres);
-        } else {
-            intent.putExtra(GENRE_ARRAY, mTVShowGenres);
-        }
+        intent.putExtra(GENRE_ARRAY, mMovieGenres);
         startActivityForResult(intent, PICK_CONTACT_REQUEST);
     }
 
@@ -282,79 +157,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Log.e(TAG, "JSON Exception: ");
         }
-        Genre[] nullGenre = new Genre[0];
-        return nullGenre;
+        return new Genre[0];
     }
-
-    private Movie[] getMoviesByRequest(String jsonData, boolean isMovie) {
-        String title;
-        String overview;
-        String genres;
-        Double vote;
-        String releaseDate;
-
-        try {
-            JSONObject jsonObject = new JSONObject(jsonData);
-            JSONArray moviesArray = jsonObject.getJSONArray("results");
-            Movie[] movies = new Movie[moviesArray.length()];
-            for (int i = 0; i < moviesArray.length(); i++) {
-                JSONObject object = moviesArray.getJSONObject(i);
-                overview = object.getString("overview");
-                genres = getGenresFromJSON(object, isMovie);
-                vote = object.getDouble("vote_average");
-                if (isMovie) {
-                    title = object.getString("title");
-                    releaseDate = object.getString("release_date");
-                } else {
-                    title = object.getString("name");
-                    releaseDate = object.getString("first_air_date");
-                }
-                movies[i] = new Movie(title, overview, genres, vote, releaseDate);
-            }
-            return movies;
-        } catch (JSONException e) {
-            Log.e(TAG, "JSON Exception: ");
-        }
-        Movie[] nullArray = new Movie[0];
-        return nullArray;
-    }
-
-    private String getGenresFromJSON(JSONObject object, boolean isMovie) {
-        int genreId;
-        String genreName = "";
-        try {
-            JSONArray genresArray = object.getJSONArray("genre_ids");
-            for (int i = 0; i < genresArray.length(); i++) {
-                genreId = genresArray.optInt(i);
-                if (genreName.equals("")) {
-                    genreName = findGenreNameById(genreId, isMovie);
-                } else {
-                    genreName = genreName + ", " + findGenreNameById(genreId, isMovie);
-                }
-            }
-            return genreName;
-        } catch (JSONException e) {
-            Log.e(TAG, "JSON Exception: ");
-        }
-        return "";
-    }
-
-    private String findGenreNameById(int id, boolean isMovie) {
-        Genre[] genresArray;
-        if (isMovie) {
-            genresArray = mMovieGenres;
-        } else {
-            genresArray = mTVShowGenres;
-        }
-
-        for (Genre genre : genresArray) {
-            if (genre.getId() == id) {
-                return genre.getName();
-            }
-        }
-        return "";
-    }
-
 
     private void alertInternetError() {
         UserDialogFragment dialog = new UserDialogFragment();
@@ -403,34 +207,23 @@ public class MainActivity extends AppCompatActivity {
         return "&vote_count.gte=" + mVotesEditText.getText();
     }
 
-    public String getReleaseYearFrom(boolean isMovie) {
+    public String getReleaseYearFrom() {
         if (mYearFromSpinner.getSelectedItem().equals(mYearToSpinner.getSelectedItem())) {
-            if (isMovie) {
-                return "&primary_release_year=" + mYearFromSpinner.getSelectedItem();
-            } else {
-                return "&first_air_date_year=" + mYearFromSpinner.getSelectedItem();
-            }
-        } else if (isMovie) {
+             return "&primary_release_year=" + mYearFromSpinner.getSelectedItem();
+             } else {
             return "&primary_release_date.gte=" + mYearFromSpinner.getSelectedItem();
-        } else {
-            return "&first_air_date.gte=" + mYearFromSpinner.getSelectedItem();
         }
     }
 
-    public String getReleaseYearTo(boolean isMovie) {
+    public String getReleaseYearTo() {
         if (mYearFromSpinner.getSelectedItem().equals(mYearToSpinner.getSelectedItem())) {
             return "";
         }
-        if (isMovie) {
-            return "&primary_release_date.lte=" + mYearToSpinner.getSelectedItem();
-        } else {
-            return "&first_air_date.lte=" + mYearToSpinner.getSelectedItem();
-        }
-    }
+            return "&primary_release_date.lte=" + (Integer.parseInt(mYearToSpinner.getSelectedItem()+"")+1);
+       }
 
-    public String getSortParameter(boolean isMovie) {
-        if (isMovie) {
-            switch (mMoviesSortOrderSpinner.getSelectedItemPosition()) {
+    public String getSortParameter() {
+          switch (mMoviesSortOrderSpinner.getSelectedItemPosition()) {
                 case (0):
                     return "&sort_by=popularity";
                 case (1):
@@ -442,65 +235,37 @@ public class MainActivity extends AppCompatActivity {
                 case (4):
                     return "&sort_by=vote_count";
             }
-        } else {
-            switch (mShowsSortOrderSpinner.getSelectedItemPosition()) {
-                case (0):
-                    return "&sort_by=popularity";
-                case (1):
-                    return "&sort_by=first_air_date";
-                case (2):
-                    return "&sort_by=vote_average";
-            }
-        }
         return "";
-    }
+       }
 
-    public String getSortOrder(boolean isMovie) {
-        Spinner spinner;
-        if (isMovie) {
-            spinner = mMoviesAscDescSpinner;
-        } else {
-            spinner = mShowsAscDescSpinner;
-        }
-
-        if (spinner.getSelectedItemPosition() == 0) {
+    public String getSortOrder() {
+        if (mMoviesAscDescSpinner.getSelectedItemPosition() == 0) {
             return ".desc";
         } else return ".asc";
     }
 
 
-    public String createUserRequest(boolean isMovie) {
-        String url = "";
-        if (isMovie) {
-            url = "https://api.themoviedb.org/3/discover/movie?";
-        } else {
-            url = "https://api.themoviedb.org/3/discover/tv?";
-        }
+    public String createUserRequest() {
+        String url = "https://api.themoviedb.org/3/discover/movie?";
         url = url +
                 getApiKey() +
-                getSortParameter(isMovie) +
-                getSortOrder(isMovie) +
-                getReleaseYearFrom(isMovie) +
-                getReleaseYearTo(isMovie) +
+                getSortParameter() +
+                getSortOrder() +
+                getReleaseYearFrom() +
+                getReleaseYearTo() +
                 getNumberOfVotes() +
                 getRatingThreshold() +
-                getSelectedGenres(isMovie);
+                getSelectedGenres();
         Log.v("REQUEST URL CREATED:", url);
         return url;
     }
 
-    private String getSelectedGenres(boolean isMovie) {
+    private String getSelectedGenres() {
         String genresRequest = "";
         Boolean allSelected = true;
-        Genre[] genres;
-        if (isMovie) {
-            genres = mMovieGenres;
-        } else {
-            genres = mTVShowGenres;
-        }
-        for (Genre genre : genres) {
+        for (Genre genre : mMovieGenres) {
             if (genre.isSelected()) {
-                if (genresRequest == "") {
+                if (genresRequest.equals("")) {
                     genresRequest = "&with_genres=" + genre.getId();
                 } else {
                     genresRequest = genresRequest + "|" + genre.getId();
@@ -513,31 +278,7 @@ public class MainActivity extends AppCompatActivity {
         return genresRequest;
     }
 
-    public boolean searchMoviesByRequest() {
-        String userRequestMovies = "";
-        String userRequestShows = "";
-       if (mMovieGenres == null || mTVShowGenres == null) {
-            alertInternetError();
-            return false;
-        }
-        if (!mMoviesCheckBox.isChecked() && !mTVCheckBox.isChecked()) {
-            Toast.makeText(this, "Select movies or TV shows to search", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (mMoviesCheckBox.isChecked()) {
-            userRequestMovies = createUserRequest(true);
-            Object result = webRequest(userRequestMovies, "USER_REQUEST", true).execute().get();
-        }
-        if (mTVCheckBox.isChecked()) {
-            userRequestShows = createUserRequest(false);
-            webRequest(userRequestShows, "USER_REQUEST", false);
-        }
-        return true;
-    }
-
-
-    public void setSpinnerAdapter(String[] array, Spinner spinner) {
+     public void setSpinnerAdapter(String[] array, Spinner spinner) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -547,14 +288,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void webRequest(String url, final String tag, final boolean isMovie) {
+    private void webRequest(final String url, final String tag) {
 
         if (networkIsAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(url).build();
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
-                 
+
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "Error: ", e);
@@ -567,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("Data request", resp);
                         if (response.isSuccessful()) {
 
-                            if (tag.equals("GET_MOVIE_GENRES")) {
+                            if (tag.equals(GET_GENRES)) {
                                 mMovieGenres = getGenresArray(resp);
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -576,24 +317,6 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
                             }
-                            if (tag.equals("GET_TV_GENRES")) {
-                                mTVShowGenres = getGenresArray(resp);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mSelectedTVGenres.setText(getResources().getString(R.string.all_genres));
-                                    }
-                                });
-                            }
-                            if (tag.equals("USER_REQUEST")) {
-                                if (isMovie) {
-                                    mMoviesByRequest = getMoviesByRequest(resp, true);
-                                } else {
-                                    mShowsByRequest = getMoviesByRequest(resp, false);
-                                }
-
-                                }
-
 
                             } else {
                             alertError();
